@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Varkey P Mathew | AI Specialist & Full Stack Developer</title>
+
+  <!-- Fonts & icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root{
+      --bg-1: #f7f8fb;
+      --bg-2: #eef2ff;
+      --glass: rgba(255,255,255,0.12);
+      --glass-2: rgba(255,255,255,0.18);
+      --primary: #6C63FF;
+      --accent: #FF6584;
+      --muted: #6b6b78;
+      --card-shadow: 0 12px 30px rgba(17,17,17,0.06);
+      --glass-border: rgba(255,255,255,0.6);
+      --glass-glow: rgba(108,99,255,0.12);
+      --glass-radius: 14px;
+    }
+
+    /* Base reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;font-family:'Poppins',system-ui,Segoe UI,Roboto,Arial;color:#111827;background:linear-gradient(180deg,var(--bg-1),var(--bg-2));-webkit-font-smoothing:antialiased;}
+    a{color:inherit}
+    img{max-width:100%;height:auto;display:block;border-radius:8px}
+
+    /* Particles canvas (behind content) */
+    #particles-js{
+      position:fixed;
+      inset:0;
+      z-index:0;
+      pointer-events:none;
+      background:transparent;
+      opacity:0.38; /* toned down */
+    }
+
+    /* Page layering: content above particles */
+    nav, main, footer{position:relative;z-index:2}
+
+    /* NAV */
+    nav{height:72px;display:flex;align-items:center;justify-content:space-between;padding:12px 36px;background:rgba(255,255,255,0.64);backdrop-filter:blur(6px);box-shadow:0 6px 18px rgba(17,17,17,0.04)}
+    .logo{font-weight:800;color:var(--primary);letter-spacing:0.4px}
+    .nav-links{display:flex;gap:18px;align-items:center}
+    .nav-links a{font-weight:600;padding:6px 10px;border-radius:8px}
+    .nav-links a:hover{color:var(--primary)}
+
+    /* HERO */
+    .hero{min-height:86vh;display:flex;gap:36px;align-items:center;padding:10vh 6%;position:relative}
+    .hero-photo{width:260px;height:260px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;
+                background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.75));
+                box-shadow:0 18px 40px rgba(17,17,17,0.12);border:6px solid rgba(255,255,255,0.95);position:relative}
+    /* glowing ring */
+    .hero-photo::after{
+      content:'';position:absolute;inset:-8px;border-radius:50%;background:linear-gradient(90deg,var(--primary),var(--accent));filter:blur(18px);opacity:0.08;pointer-events:none;
+    }
+    .hero-photo img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+    .hero-left{max-width:760px}
+    .hero h1{font-size:clamp(1.9rem,4.2vw,2.8rem);margin-bottom:6px}
+    .hero p{color:var(--muted);margin-bottom:14px;max-width:58ch}
+
+    /* CTA */
+    .cta{display:inline-block;padding:12px 22px;background:linear-gradient(90deg,var(--primary),#7b61ff);color:white;border-radius:999px;font-weight:700;box-shadow:0 8px 22px rgba(108,99,255,0.12);text-decoration:none}
+    .cta:hover{transform:translateY(-3px)}
+
+    /* ---------------- Profile & layout ---------------- */
+    .section{padding:56px 6%;position:relative}
+    .section-title{font-size:1.6rem;margin-bottom:18px;color:#0f1724}
+
+    .grid{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:start}
+    @media (max-width:980px){ .grid{grid-template-columns:1fr; } .hero{flex-direction:column;text-align:center} .hero-left{order:2} .hero-photo{order:1;margin-bottom:18px} }
+
+    /* Glass card base */
+    .glass{
+      background: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.28));
+      border-radius: var(--glass-radius);
+      padding:20px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(255,255,255,0.6);
+      backdrop-filter: blur(8px) saturate(120%);
+      position:relative;
+      overflow:visible;
+    }
+
+    /* Decorative gradient accent (top-right) */
+    .glass::before{
+      content:'';position:absolute;right:-48px;top:-48px;width:160px;height:160px;border-radius:50%;
+      background:linear-gradient(135deg,var(--primary),var(--accent));opacity:0.06;filter:blur(26px);pointer-events:none;
+    }
+
+    /* Profile left column: elaborative content */
+    .profile-summary h3{margin-bottom:8px}
+    .profile-summary p{color:var(--muted);margin-bottom:10px}
+    .profile-meta{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+    .meta-item{display:inline-flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,0.62);font-weight:600;color:#111}
+
+    /* Skills chips w/ subtle animation */
+    .skills{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+    .skill{padding:8px 12px;border-radius:999px;background:linear-gradient(90deg,rgba(255,255,255,0.5),rgba(255,255,255,0.35));border:1px solid rgba(108,99,255,0.08);font-weight:600;color:#111}
+    .skill[data-level="high"]{box-shadow:0 6px 18px rgba(108,99,255,0.06)}
+
+    /* timeline (mini) */
+    .mini-timeline{margin-top:18px;display:flex;flex-direction:column;gap:12px}
+    .timeline-row{display:flex;gap:12px;align-items:flex-start}
+    .timeline-dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(90deg,var(--primary),var(--accent));box-shadow:0 6px 18px rgba(108,99,255,0.12)}
+    .timeline-info h4{margin-bottom:4px;font-size:1rem}
+    .timeline-info p{color:var(--muted);font-size:0.94rem}
+
+    /* ---------------- Certifications ---------------- */
+    .certs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:6px}
+    /* Ensure cert-cards sit above background particles and any decorative elements */
+    .cert-card{
+      position:relative;
+      z-index:5; /* bring card to front */
+      padding:16px;border-radius:12px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,255,255,0.72));
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+      border:1px solid rgba(255,255,255,0.6);
+      box-shadow:var(--card-shadow);
+      cursor:pointer;overflow:visible;transition:transform .22s ease,box-shadow .22s ease;
+    }
+    .cert-card:hover{transform:translateY(-8px);box-shadow:0 22px 50px rgba(108,99,255,0.12)}
+    .cert-card:focus{outline:3px solid rgba(108,99,255,0.14);outline-offset:4px}
+
+    /* border-anim used as decorative glow behind card — keep it behind the card */
+    .cert-card .border-anim{
+      position:absolute;inset:-2px;border-radius:14px;padding:2px;
+      background:linear-gradient(90deg,var(--primary),#8e59ff,#ff6584);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude; opacity:0.75;filter:blur(10px);
+      z-index:1; /* behind main content but above page background */
+      /* Remove the rotation animation so it doesn't overlap/move distracting lines */
+      animation: none;
+      transform: none;
+    }
+
+    /* We keep the keyframes defined if you want to re-enable later — but they won't run */
+    @keyframes borderShift{0%{filter:blur(6px);transform:rotate(0)}50%{filter:blur(12px);transform:rotate(180deg)}100%{filter:blur(6px);transform:rotate(360deg)}}
+
+    .cert-card .cert-head{display:flex;align-items:center;gap:10px}
+    .cert-card .cert-head img.logo, .cert-card .cert-head img.cert-logo{
+      width:44px;height:44px;border-radius:8px;object-fit:contain;box-shadow:0 8px 24px rgba(17,17,17,0.06);background:transparent;
+    }
+    .cert-card h4{margin:6px 0 6px 0}
+    .cert-card p{color:var(--muted);font-size:0.92rem}
+
+    /* accent icon */
+    .cert-card .accent{
+      position:absolute;right:12px;bottom:12px;width:36px;height:36px;border-radius:8px;background:linear-gradient(90deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;transform:translateY(6px);transition:transform .28s;
+      z-index:6; /* above the glow and card */
+    }
+    .cert-card:hover .accent{transform:translateY(-2px) rotate(12deg)}
+
+    /* ---------------- Contact cards ---------------- */
+    .contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:10px}
+    @media (max-width:980px){ .contact-grid{grid-template-columns:1fr; } }
+    .contact-card{
+      padding:16px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0.22));
+      border:1px solid rgba(255,255,255,0.6);box-shadow:var(--card-shadow);display:flex;gap:12px;align-items:center;
+      transition:transform .18s, box-shadow .18s;
+      cursor:default;
+      user-select:none;
+    }
+    /* Show pointer when hovering contact-card (email/phone/linkedin) */
+    .contact-card:hover{transform:translateY(-6px);cursor:pointer;box-shadow:0 22px 50px rgba(108,99,255,0.10)}
+    .contact-card:active{transform:translateY(-2px)}
+    .contact-card:focus{outline:3px solid rgba(108,99,255,0.12);outline-offset:3px}
+    .contact-icon{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(90deg,var(--primary),#8e59ff);color:white;font-size:1.25rem}
+    .contact-card .contact-body h4{margin-bottom:6px}
+    .small{font-size:0.95rem;color:var(--muted)}
+
+    /* subtle entrance animation */
+    .reveal{opacity:0;transform:translateY(8px);animation:revealUp .6s forwards ease-out}
+    .reveal.delay-1{animation-delay:0.08s}
+    .reveal.delay-2{animation-delay:0.16s}
+    .reveal.delay-3{animation-delay:0.24s}
+    @keyframes revealUp{to{opacity:1;transform:none}}
+
+    /* reduced motion respect */
+    @media (prefers-reduced-motion: reduce){ .reveal, .cert-card, .cta { animation:none; transition:none; } .cert-card .border-anim{animation:none} }
+  </style>
+</head>
+<body>
+  <!-- particles canvas (existing) -->
+  <div id="particles-js" aria-hidden="true"></div>
+
+  <nav>
+    <div class="logo">Varkey<span style="color:var(--accent)">.</span></div>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#profile">Profile</a>
+      <a href="#projects">Projects</a>
+      <a href="#certs">Certifications</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <main style="padding-top:86px;">
+    <!-- HERO -->
+    <section id="home" class="hero" aria-labelledby="hero-heading">
+      <div class="hero-photo" title="Varkey P Mathew">
+        <img src="Picsart_25-04-26_18-02-34-603.png" alt="Portrait photo of Varkey P Mathew">
+      </div>
+
+      <div class="hero-left reveal">
+        <h1 id="hero-heading">Hi, I'm <span style="color:var(--primary)">Varkey P Mathew</span></h1>
+        <p>Generative AI specialization | Python | AI & ML | MCA student at Alliance University. I build practical AI systems and full-stack applications that solve real problems.</p>
+        <div style="margin-top:14px">
+          <a class="cta" href="#contact">Get in touch</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROFILE (glass, elaborative) -->
+    <section id="profile" class="section" aria-labelledby="profile-heading">
+      <h2 class="section-title" id="profile-heading">Profile</h2>
+
+      <div class="grid">
+        <!-- Main profile card -->
+        <div class="glass reveal">
+          <div class="profile-summary">
+            <h3 style="margin-bottom:6px">About me</h3>
+            <p style="color:var(--muted)">From a passion for technology to hands-on experience in UI/UX design, data science, and software development, I thrive at the intersection of creativity and logic. I focus on practical AI solutions — computer vision, NLP and production-ready web/mobile apps.</p>
+
+            <div class="profile-meta" aria-hidden="false">
+              <div class="meta-item"><i class="fas fa-graduation-cap" style="color:var(--primary)"></i> MCA (AI) — Alliance University</div>
+              <div class="meta-item"><i class="fas fa-building" style="color:var(--primary)"></i> Ideonix — App Dev Intern</div>
+              <div class="meta-item"><i class="fas fa-flag" style="color:var(--primary)"></i> Seeking AI Engineer roles</div>
+            </div>
+
+            <div style="margin-top:12px">
+              <strong>Top skills</strong>
+              <div class="skills" aria-hidden="false">
+                <span class="skill" data-level="high">Python</span>
+                <span class="skill" data-level="high">Machine Learning</span>
+                <span class="skill">OpenCV</span>
+                <span class="skill">NLP</span>
+                <span class="skill">Java / Android</span>
+                <span class="skill">Power BI</span>
+              </div>
+            </div>
+
+            <div style="margin-top:14px">
+              <strong>Short timeline</strong>
+              <div class="mini-timeline">
+                <div class="timeline-row">
+                  <div class="timeline-dot" aria-hidden="true"></div>
+                  <div class="timeline-info"><h4>Full stack Android Intern — Ideonix</h4><p class="small">Mar 2024 — Jul 2024</p></div>
+                </div>
+                <div class="timeline-row">
+                  <div class="timeline-dot" aria-hidden="true"></div>
+                  <div class="timeline-info"><h4>Graphic Designer — Spectrum Marketers</h4><p class="small">Feb 2023 — Jul 2024</p></div>
+                </div>
+                <div class="timeline-row">
+                  <div class="timeline-dot" aria-hidden="true"></div>
+                  <div class="timeline-info"><h4>Digital Marketing Intern — Savhn Tech</h4><p class="small">Apr 2022 — Oct 2022</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column summary / quick CTA -->
+        <aside class="glass reveal delay-1" style="display:flex;flex-direction:column;gap:14px;align-items:stretch">
+          <div style="display:flex;gap:12px;align-items:center">
+            <div style="flex:0 0 76px">
+              <img src="Picsart_25-04-26_18-02-34-603.png" alt="Varkey portrait" style="width:76px;height:76px;border-radius:12px;object-fit:cover;box-shadow:0 8px 30px rgba(17,17,17,0.06)">
+            </div>
+            <div>
+              <div style="font-weight:700">Varkey P Mathew</div>
+              <div class="small" style="color:var(--muted)">AI Specialist & Full Stack Dev</div>
+            </div>
+          </div>
+
+          <div style="padding-top:4px">
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <a class="cta" href="#projects" style="padding:8px 12px;font-size:0.95rem">View Projects</a>
+              <a class="cta" href="#certs" style="padding:8px 12px;font-size:0.95rem;background:linear-gradient(90deg,#fff,#f8f8ff);color:var(--primary);box-shadow:none;border:1px solid rgba(108,99,255,0.06)">My Certificates</a>
+            </div>
+          </div>
+
+          <div style="margin-top:6px">
+            <strong>Quick stats</strong>
+            <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+              <div style="background:rgba(255,255,255,0.6);padding:8px 10px;border-radius:10px;font-weight:700">5+ Projects</div>
+              <div style="background:rgba(255,255,255,0.6);padding:8px 10px;border-radius:10px;font-weight:700">7+ Certs</div>
+              <div style="background:rgba(255,255,255,0.6);padding:8px 10px;border-radius:10px;font-weight:700">2 Internships</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Projects section omitted here for brevity (kept unchanged) -->
+    <!-- ... include your projects section from your file or earlier edit ... -->
+
+    <!-- Certifications: visually enhanced -->
+    <section id="certs" class="section" aria-labelledby="certs-heading">
+      <h2 class="section-title" id="certs-heading">Certifications</h2>
+
+      <div class="certs-grid">
+        <!-- Example: Microsoft Power BI -->
+        <div class="cert-card" role="button" tabindex="0" onclick="window.open('https://www.coursera.org/account/accomplishments/specialization/1EOP7UO1BULH','_blank')">
+          <div class="border-anim" aria-hidden="true"></div>
+          <div class="cert-head">
+            <!-- use local assets in assets/logos/ (or keep existing filenames in site root) -->
+            <img class="cert-logo" src="microsoft.png" alt="Microsoft Logo">
+            <div>
+              <h4>Microsoft Power BI Data Analyst</h4>
+              <p class="small">Coursera — Specialization certificate</p>
+            </div>
+          </div>
+          <div class="accent"><i class="fas fa-external-link-alt"></i></div>
+        </div>
+
+        <!-- Edureka / ML & NLP -->
+        <div class="cert-card" role="button" tabindex="0" onclick="window.open('https://www.coursera.org/account/accomplishments/verify/I76ESD4YEPQA','_blank')">
+          <div class="border-anim" aria-hidden="true"></div>
+          <div class="cert-head">
+            <img class="cert-logo" src="edureka.png" alt="Edureka Logo" />
+            <div>
+              <h4>Machine Learning and NLP Basics</h4>
+              <p class="small">Coursera — Verified certificate</p>
+            </div>
+          </div>
+          <div class="accent"><i class="fas fa-check"></i></div>
+        </div>
+
+        <!-- University of Alberta -->
+        <div class="cert-card" role="button" tabindex="0" onclick="window.open('https://www.coursera.org/account/accomplishments/verify/AT67L566CSMU','_blank')">
+          <div class="border-anim" aria-hidden="true"></div>
+          <div class="cert-head">
+            <img class="cert-logo" src="univ-alberta.png" alt="University of Alberta Logo" />
+            <div><h4>Fundamentals of Reinforcement Learning</h4><p class="small">Open verification link</p></div>
+          </div>
+          <div class="accent"><i class="fas fa-certificate"></i></div>
+        </div>
+
+        <!-- IBM — Generative AI -->
+        <div class="cert-card" role="button" tabindex="0" onclick="window.open('https://www.coursera.org/account/accomplishments/verify/3QEQYRJIQZ6X','_blank')">
+          <div class="border-anim" aria-hidden="true"></div>
+          <div class="cert-head">
+            <img class="cert-logo" src="ibm.png" alt="IBM Logo" />
+            <div><h4>Generative AI: Introduction and Applications</h4><p class="small">Open verification link</p></div>
+          </div>
+          <div class="accent"><i class="fas fa-certificate"></i></div>
+        </div>
+
+        <!-- IBM — Intro to Software Eng -->
+        <div class="cert-card" role="button" tabindex="0" onclick="window.open('https://www.coursera.org/account/accomplishments/verify/KTF13GVP3SDQ','_blank')">
+          <div class="border-anim" aria-hidden="true"></div>
+          <div class="cert-head">
+            <img class="cert-logo" src="ibm.png" alt="IBM Logo" />
+            <div><h4>Introduction to Software Engineering</h4><p class="small">Open verification link</p></div>
+          </div>
+          <div class="accent"><i class="fas fa-certificate"></i></div>
+        </div>
+
+        <!-- DeepLearning.AI -->
+        <div class="cert-card" role="button" tabindex="0" onclick="window.open('https://www.coursera.org/account/accomplishments/verify/CQAEHFT5MDQA','_blank')">
+          <div class="border-anim" aria-hidden="true"></div>
+          <div class="cert-head">
+            <img class="cert-logo" src="deeplearningai.png" alt="DeepLearning.AI Logo" />
+            <div><h4>Neural Networks and Deep Learning</h4><p class="small">Open verification link</p></div>
+          </div>
+          <div class="accent"><i class="fas fa-certificate"></i></div>
+        </div>
+
+        <!-- Google Networking -->
+        <div class="cert-card" role="button" tabindex="0" onclick="window.open('https://www.coursera.org/account/accomplishments/verify/40LAMER68F5U','_blank')">
+          <div class="border-anim" aria-hidden="true"></div>
+          <div class="cert-head">
+            <img class="cert-logo" src="google.png" alt="Google Logo" />
+            <div><h4>The Bits and Bytes of Computer Networking</h4><p class="small">Open verification link</p></div>
+          </div>
+          <div class="accent"><i class="fas fa-certificate"></i></div>
+        </div>
+
+        <!-- LinkedIn -->
+        <div class="cert-card" role="button" tabindex="0" onclick="window.open('https://www.linkedin.com/learning/certificates/76481ac91ef77771e7d46f23c0958798ac1154f66d33222c2ec6aa32409ae63e','_blank')">
+          <div class="border-anim" aria-hidden="true"></div>
+          <div class="cert-head">
+            <img class="cert-logo" src="linkedin.png" alt="LinkedIn Logo" />
+            <div><h4>Complete Guide to Java Design Patterns</h4><p class="small">LinkedIn Learning — Certificate</p></div>
+          </div>
+          <div class="accent"><i class="fas fa-link"></i></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Contact (visual & interactive) -->
+    <section id="contact" class="section" aria-labelledby="contact-heading">
+      <h2 class="section-title" id="contact-heading">Contact</h2>
+
+      <div class="glass reveal">
+        <p class="small">I'm open to internships and AI/Full Stack roles. Reach out for collaborations, freelance work, or to discuss interesting projects.</p>
+
+        <div class="contact-grid" style="margin-top:12px">
+          <div class="contact-card" role="button" tabindex="0" onclick="copyToClipboard('mathewpvmys@gmail.com')" title="Click to copy email">
+            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+            <div class="contact-body">
+              <h4>Email</h4>
+              <div class="small">mathewpvmys@gmail.com — <em>click to copy</em></div>
+            </div>
+          </div>
+
+          <div class="contact-card" role="button" tabindex="0" onclick="copyToClipboard('+919902038711')" title="Click to copy phone number">
+            <div class="contact-icon"><i class="fas fa-phone"></i></div>
+            <div class="contact-body">
+              <h4>Phone</h4>
+              <div class="small">+91 9902038711 — <em>click to copy</em></div>
+            </div>
+          </div>
+
+          <div class="contact-card" role="button" tabindex="0" onclick="window.open('https://www.linkedin.com/in/varkeypmathew/','_blank')" title="Open LinkedIn">
+            <div class="contact-icon"><i class="fab fa-linkedin-in"></i></div>
+            <div class="contact-body">
+              <h4>LinkedIn</h4>
+              <div class="small">varkeypmathew — <em>opens profile</em></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="padding:28px;text-align:center">
+    <div style="font-weight:700">Varkey P Mathew</div>
+    <div class="small" style="margin-top:6px">Generative AI specialization | AI & ML | MCA student</div>
+    <div style="margin-top:12px;color:#9fa6c6">&copy; 2026</div>
+  </footer>
+
+  <!-- Particles.js (unchanged; visible behind content) -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    // particles initialization
+    try {
+      particlesJS('particles-js', {
+        "particles": {
+          "number": { "value": 90, "density": { "enable": true, "value_area": 1000 } },
+          "color": { "value": ["#6C63FF","#4D44DB","#FF6584","#7B61FF"] },
+          "shape": { "type": "circle" },
+          "opacity": { "value": 0.65, "random": false },
+          "size": { "value": 2.8, "random": true },
+          "line_linked": { "enable": true, "distance": 160, "color": "#6C63FF", "opacity": 0.22, "width": 1.1 },
+          "move": { "enable": true, "speed": 1.8, "out_mode": "out" }
+        },
+        "interactivity": {
+          "detect_on": "canvas",
+          "events": {
+            "onhover": { "enable": true, "mode": "repulse" },
+            "onclick": { "enable": true, "mode": "push" },
+            "resize": true
+          },
+          "modes": { "repulse": { "distance": 140 }, "push": { "particles_nb": 4 } }
+        },
+        "retina_detect": true
+      });
+    } catch(e) { console.warn('particles failed to init', e); }
+
+    // keyboard activation for certificate cards
+    document.querySelectorAll('.cert-card').forEach(card=>{
+      card.addEventListener('keypress', (e)=>{ if(e.key==='Enter' || e.key===' ') card.click(); });
+    });
+
+    // copy-to-clipboard helpers for contact cards
+    function copyToClipboard(text){
+      if(!navigator.clipboard){
+        const ta = document.createElement('textarea');
+        ta.value = text; document.body.appendChild(ta); ta.select();
+        try{ document.execCommand('copy'); alert('Copied: ' + text); }catch(e){ prompt('Copy this:', text); }
+        ta.remove();
+        return;
+      }
+      navigator.clipboard.writeText(text).then(()=>{ alert('Copied: ' + text); }, err=>{ alert('Copy failed — ' + text); });
+    }
+
+    // reveal on load
+    window.addEventListener('load', ()=>{ document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in-view')); });
+  </script>
+</body>
+</html>
